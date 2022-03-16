@@ -1,0 +1,101 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-64x64">
+            <img src="{{ url_for('static', filename=post['Picture']) }}">
+        </p>
+    </figure>
+    <div class="media-content">
+        <div class="content">
+            <p>
+                <a href=" {{ url_for('profile', user_id=post['UserID']) }} ">
+                    <strong>{{ post['Name'] }}</strong> <small>@{{ post['Username'] }}</small> 
+                </a>
+                <small>{{ post['DateTime'] }}</small>
+                <br>
+                {{ post['Text']}}
+                <br>
+            <nav class="level is-mobile">
+                <div class="level-left">
+                    <a class="level-item" aria-label="like">
+                        <span class="icon-text">
+                            <span class="icon is small">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                            <span>{{ post['Likes'] | count}}</span>
+                            <!--| count is similar to len()-->
+                        </span>
+                    </a>
+                    <a class="level-item" aria-label="like">
+                        <span class="icon-text">
+                            <span class="icon is small">
+                                <i class="fas fa-comment"></i>
+                            </span>
+                            <span>{{ post['Comments'] | count}}</span>
+                        </span>
+                    </a>
+
+
+
+                </div>
+            </nav>
+            </p>
+        </div>
+
+        {% for comment in post['Comments'] %}
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-48x48">
+                    <img src="{{ url_for('static', filename=comment['Picture']) }}">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <a href="{{ url_for('profile', user_id=comment['UserID']) }}">
+                            <strong>{{ comment['Name'] }}</strong> <small>@{{ comment['Username'] }}</small> 
+                        </a>
+                        <small>{{ comment['DateTime'] }}</small>
+                        <br>
+                        {{ comment['Text'] }}
+                    </p>
+                </div>
+
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</article>
+
+<article class="media">
+    <div class="media-left">
+        <figure class="image is-64x64">
+            <img src="{{ url_for('static', filename='collie.jpg') }}" alt="Image">
+        </figure>
+    </div>
+    <div class="media-content">
+        <div class="content">
+            <p>
+                <strong>Collie</strong> <small>@collie</small>
+                <br>
+            <form>
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" placeholder="New message" rows=2></textarea>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link">Comment</button>
+                    </div>
+                </div>
+            </form>
+            </p>
+        </div>
+    </div>
+</article>
+
+{% endblock %}
